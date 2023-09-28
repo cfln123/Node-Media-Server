@@ -118,7 +118,7 @@ class NodeFlvSession {
     }
 
     if (this.config.auth && this.config.auth.play && !this.isLocal) {
-      NodeCoreUtils.verifyAuth(this.playArgs.sign, this.playStreamPath, this.config.auth.secret, this.config.auth.customAuth, 'read').then(results => {
+      NodeCoreUtils.verifyAuth(this.playArgs.sign, this.playStreamPath, this.config.auth.secret, this.config.auth.customAuth, 'play').then(results => {
         if (!results) {
           Logger.log(`[${this.TAG} play] Unauthorized. id=${this.id} streamPath=${this.playStreamPath} sign=${this.playArgs.sign}`);
           this.res.statusCode = 403;
