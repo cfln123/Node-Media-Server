@@ -1,4 +1,6 @@
-FROM node:lts-alpine
+FROM node:20-alpine3.17 AS node
+
+FROM jrottenberg/ffmpeg:6.0-alpine313
 
 ARG BUILD_DATE
 ARG VCS_REF
@@ -13,6 +15,11 @@ LABEL org.label-schema.build-date="${BUILD_DATE}" \
       org.label-schema.version="2.5.0" \
       maintainer="https://github.com/illuspas"
 
+COPY --from=node /usr/lib /usr/lib
+COPY --from=node /usr/local/lib /usr/local/lib
+COPY --from=node /usr/local/include /usr/local/include
+COPY --from=node /usr/local/bin /usr/local/bin
+
 WORKDIR /usr/src/app
 
 COPY package*.json ./
@@ -21,6 +28,6 @@ RUN npm i
 
 COPY . .
 
-EXPOSE 1935 8000 8443
+ENTRYPOINT [ "node" ]
 
-CMD ["node","bin/app.js"]
+CMD [ "bin/app.js" ]
