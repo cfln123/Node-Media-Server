@@ -1,6 +1,4 @@
-FROM node:20-alpine3.17 AS node
-
-FROM jrottenberg/ffmpeg:6.0-alpine313
+FROM node:20-alpine3.17
 
 ARG BUILD_DATE
 ARG VCS_REF
@@ -14,13 +12,6 @@ LABEL org.label-schema.build-date="${BUILD_DATE}" \
       org.label-schema.vendor="illuspas" \
       org.label-schema.version="2.5.0" \
       maintainer="https://github.com/illuspas"
-
-COPY --from=node /usr/lib /usr/lib
-COPY --from=node /usr/local/lib /usr/local/lib
-COPY --from=node /usr/local/include /usr/local/include
-COPY --from=node /usr/local/bin /usr/local/bin
-
-ENV PATH=${PATH}:/usr/local/bin
 
 WORKDIR /usr/src/app
 
